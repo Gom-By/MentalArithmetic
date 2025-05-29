@@ -13,7 +13,7 @@ import androidx.room.RoomDatabase
     exportSchema = true
 )
 abstract class MentalArithmeticDB: RoomDatabase() {
-    abstract fun MentalArithmeticDao(): PlayerDao
+    abstract fun mentalArithmeticDao(): PlayerDao
 
     companion object {
         @Volatile

@@ -30,7 +30,7 @@ fun AboutView(
     var isSectionVisible by remember {
         mutableStateOf(true)
     }
-    var isRequiredSectionVisibile by remember {
+    var isRequiredSectionVisible by remember {
         mutableStateOf(true)
     }
 
@@ -47,15 +47,15 @@ fun AboutView(
                 Column(Modifier.padding(vertical = 16.dp)) {
                     Row(
                         modifier = Modifier.fillMaxWidth().clickable {
-                            isRequiredSectionVisibile = !isRequiredSectionVisibile
+                            isRequiredSectionVisible = !isRequiredSectionVisible
                         },
                         verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.SpaceBetween
                     ) {
                         Text("Required Features")
-                        Icon(imageVector = if (isRequiredSectionVisibile) Icons.Default.KeyboardArrowUp  else Icons.Default.KeyboardArrowDown , contentDescription = null)
+                        Icon(imageVector = if (isRequiredSectionVisible) Icons.Default.KeyboardArrowUp  else Icons.Default.KeyboardArrowDown , contentDescription = null)
                     }
-                    AnimatedVisibility(isRequiredSectionVisibile) {
+                    AnimatedVisibility(isRequiredSectionVisible) {
                         Column(Modifier.padding(vertical = 16.dp)) {
                             Text("Quiz : where the game happens")
                             Text("About page: this page")

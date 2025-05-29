@@ -1,6 +1,5 @@
 package com.example.mentalarithmetic.presentation
 
-import android.widget.Space
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -17,27 +16,39 @@ import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.font.FontWeight.Companion.Bold
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import com.example.mentalarithmetic.domain.Difficulty
 import com.example.mentalarithmetic.domain.QuizViewModel
 import com.example.mentalarithmetic.ui.theme.Typography
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeView(
     modifier: Modifier = Modifier,
     navController: NavHostController = rememberNavController(),
     vm: QuizViewModel = viewModel()
 ) {
-    val topPlayers = vm.topPlayers.collectAsState()
+    val topPlayers = vm.players.collectAsState() // TODO : change to topPlayers
+    var showModal by remember { mutableStateOf(false) }
+
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -54,11 +65,13 @@ fun HomeView(
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.SpaceEvenly
                 ) {
-                    Text("This is a mental arithmetic game.", style = Typography.titleLarge)
+                    Text("Mental Arithmetic Game.", style = Typography.headlineLarge, fontWeight = FontWeight.Medium)
                     Column(Modifier.padding(vertical = 16.dp)) {
-                        Text("Rules :", style = Typography.titleMedium)
-                        Text("After clicking start, a question will appear. Answer in the text input then click \"Confirm\" to send the answer.")
+                        Text("Rules :", style = Typography.headlineMedium, fontWeight = Bold)
+                        Text("A question will appear.")
+                        Text("You have 20s to answer in the text input and then click \"Confirm\" to send the answer.")
                         Text("You can't redo a question after it has been already validate")
+                        Text("Numbers are rounded up with 2 decimals")
                     }
                 }
                 Row(
@@ -67,8 +80,7 @@ fun HomeView(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Button(onClick = {
-                        vm.firstLaunch()
-                        navController.navigate("Quiz")
+                        showModal = true
                     }) {
                         Icon(imageVector = Icons.Default.PlayArrow, contentDescription = "Start")
                         Spacer(Modifier.width(8.dp))
@@ -90,7 +102,7 @@ fun HomeView(
             Column(
                 Modifier.fillMaxWidth().padding(12.dp)
             ) {
-                Text("Previous scores saved :")
+                Text("Scoreboard", style = Typography.headlineMedium, fontWeight = Bold)
                 Spacer(Modifier.height(8.dp))
                 LazyColumn {
                     item {
@@ -101,10 +113,11 @@ fun HomeView(
                         ) {
                             Text("Name")
                             Text("Score")
-                            Text("Description")
+                            Text("Lives left")
+                            Text("Difficulty")
                         }
                     }
-                    items(items = players.value, itemContent = {
+                    items(items = topPlayers.value, itemContent = {
                         Row(
                             modifier = Modifier.fillMaxWidth().padding(vertical = 3.dp),
                             verticalAlignment = Alignment.CenterVertically,
@@ -113,8 +126,101 @@ fun HomeView(
                             Text(it.name)
                             Text(it.score.toString())
                             Text(it.lives.toString())
+                            Text(it.gameMode.name)
                         }
                     })
+                }
+            }
+        }
+
+        if(showModal) {
+            ModalBottomSheet(
+                onDismissRequest = {
+                    showModal = false
+                }) {
+                Column(
+                    Modifier.padding(horizontal = 12.dp, vertical = 16.dp)
+                ) {
+                    Row(
+                        Modifier.fillMaxWidth().padding(vertical = 6.dp),
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.SpaceBetween
+                    ) {
+                        Column {
+                            Text("Easy Mode", style = Typography.headlineLarge)
+                            Text(
+                                "Max lives, numbers between 0 and 10",
+                                style = Typography.labelLarge
+                            )
+                        }
+                        Button(onClick = {
+                            showModal = false
+                            vm.firstLaunch(difficulty = Difficulty.EASY)
+                            navController.navigate("Quiz")
+                        }) {
+                            Icon(imageVector = Icons.Default.PlayArrow, contentDescription = null)
+                        }
+                    }
+                    Row(
+                        Modifier.fillMaxWidth().padding(vertical = 6.dp),
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.SpaceBetween
+                    ) {
+                        Column {
+                            Text("Medium Mode", style = Typography.headlineLarge)
+                            Text(
+                                "More lives, numbers between 0 and 20",
+                                style = Typography.labelLarge
+                            )
+                        }
+                        Button(onClick = {
+                            showModal = false
+                            vm.firstLaunch(difficulty = Difficulty.MEDIUM)
+                            navController.navigate("Quiz")
+                        }) {
+                            Icon(imageVector = Icons.Default.PlayArrow, contentDescription = null)
+                        }
+                    }
+                    Row(
+                        Modifier.fillMaxWidth().padding(vertical = 6.dp),
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.SpaceBetween
+                    ) {
+                        Column {
+                            Text("Hard Mode", style = Typography.headlineLarge)
+                            Text(
+                                "Less lives, numbers between -20 and 20",
+                                style = Typography.labelLarge
+                            )
+                        }
+                        Button(onClick = {
+                            showModal = false
+                            vm.firstLaunch(difficulty = Difficulty.HARD)
+                            navController.navigate("Quiz")
+                        }) {
+                            Icon(imageVector = Icons.Default.PlayArrow, contentDescription = null)
+                        }
+                    }
+                    Row(
+                        Modifier.fillMaxWidth().padding(vertical = 6.dp),
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.SpaceBetween
+                    ) {
+                        Column {
+                            Text("Expert Mode", style = Typography.headlineLarge)
+                            Text(
+                                "3 lives, numbers between -100 and 100",
+                                style = Typography.labelLarge
+                            )
+                        }
+                        Button(onClick = {
+                            showModal = false
+                            vm.firstLaunch(difficulty = Difficulty.EXPERT)
+                            navController.navigate("Quiz")
+                        }) {
+                            Icon(imageVector = Icons.Default.PlayArrow, contentDescription = null)
+                        }
+                    }
                 }
             }
         }

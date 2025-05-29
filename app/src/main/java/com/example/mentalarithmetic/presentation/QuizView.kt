@@ -1,7 +1,6 @@
 package com.example.mentalarithmetic.presentation
 
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.core.Animation
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -13,17 +12,13 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowForward
 import androidx.compose.material.icons.filled.AccountCircle
-import androidx.compose.material.icons.filled.ArrowForward
 import androidx.compose.material.icons.filled.Check
-import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Info
-import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonColors
@@ -33,15 +28,12 @@ import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.focus.onFocusEvent
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
@@ -51,8 +43,6 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.mentalarithmetic.domain.QuizViewModel
 import com.example.mentalarithmetic.ui.theme.Typography
-import kotlin.random.Random
-import kotlin.uuid.Uuid.Companion.random
 
 @Composable
 fun QuizView(
@@ -61,15 +51,22 @@ fun QuizView(
     navController: NavController = rememberNavController()
 ) {
     var input by rememberSaveable { mutableStateOf("") }
-    var shouldBeTop by rememberSaveable { mutableStateOf(false) }
     var showAnswer by rememberSaveable { mutableStateOf(false) }
     var isAnswerValid by rememberSaveable { mutableStateOf<Boolean?>(null) }
 
     Column(
-        modifier = modifier.fillMaxSize().padding(18.dp),
-        verticalArrangement = if(shouldBeTop) Arrangement.Top else Arrangement.Center,
+        modifier = modifier
+            .fillMaxSize()
+            .padding(18.dp),
+        verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
+        Spacer(Modifier.height(64.dp))
+        Row(
+            Modifier.fillMaxWidth().padding(12.dp)
+        ) {
+            Text("Difficulty : ${vm.gameDifficulty.value.name}")
+        }
         Row(
             modifier = Modifier.fillMaxWidth().padding(12.dp),
             verticalAlignment = Alignment.Top,
@@ -79,6 +76,9 @@ fun QuizView(
                 Icon(imageVector = Icons.Default.Star, contentDescription = "Score")
                 Spacer(Modifier.width(8.dp))
                 Text(text = vm.score.value.toString())
+            }
+            Row {
+                Text(text = vm.timerText.value)
             }
             Row {
                 Text(text = vm.lives.value.toString())
@@ -101,9 +101,7 @@ fun QuizView(
                 Spacer(Modifier.height(12.dp))
                 Row(Modifier.fillMaxWidth()) {
                     TextField(
-                        modifier = Modifier.onFocusEvent {
-                            shouldBeTop = it.hasFocus
-                        }.fillMaxWidth(),
+                        modifier = Modifier.fillMaxWidth(),
                         value = input,
                         onValueChange = { input = it },
                         keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
