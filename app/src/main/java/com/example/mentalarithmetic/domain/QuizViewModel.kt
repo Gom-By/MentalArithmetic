@@ -1,6 +1,10 @@
 package com.example.mentalarithmetic.domain
 
+import android.annotation.SuppressLint
+import android.content.Context
+import android.content.res.Configuration
 import android.os.CountDownTimer
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.State
 import androidx.compose.runtime.asIntState
 import androidx.compose.runtime.asLongState
@@ -17,10 +21,38 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import java.math.RoundingMode
+import java.util.Locale
 import kotlin.math.max
 import kotlin.random.Random
 
-class QuizViewModel(val playerDao: PlayerDao): ViewModel() {
+class QuizViewModel(val playerDao: PlayerDao, ctx: Context) : ViewModel() {
+    private val _language: MutableState<String> = mutableStateOf("en")
+    val language: State<String> = _language
+
+    @SuppressLint("StaticFieldLeak")
+    private val context = ctx.applicationContext
+
+    init {
+        viewModelScope.launch {
+            LanguagePreferenceManager.getLanguageFlow(context)
+                .collect { lang ->
+                    _language.value = lang
+                }
+        }
+    }
+
+    fun updateLanguage(lang: String) {
+        viewModelScope.launch {
+            LanguagePreferenceManager.saveLanguage(context, lang)
+        }
+        _language.value = lang
+    }
+
+    fun applyLocale(context: Context): Context {
+        return LocaleHelper.setLocale(context, _language.value)
+    }
+
+
     private val _players = MutableStateFlow<List<PlayerEntity>>(emptyList())
     val players: StateFlow<List<PlayerEntity>> = _players.asStateFlow()
 
@@ -45,10 +77,11 @@ class QuizViewModel(val playerDao: PlayerDao): ViewModel() {
     var gameDifficulty = mutableStateOf(Difficulty.EASY)
 
     var timerText = mutableStateOf("")
-    val timer = object: CountDownTimer(20000, 1000) {
+    val timer = object : CountDownTimer(20000, 1000) {
         override fun onTick(millisUntilFinished: Long) {
-            timerText.value = "${millisUntilFinished/1000} seconds remaining"
+            timerText.value = "${millisUntilFinished / 1000} seconds remaining"
         }
+
         override fun onFinish() {
             timerText.value = "Time's up !"
             _isGameTerminated.value = true
@@ -70,7 +103,7 @@ class QuizViewModel(val playerDao: PlayerDao): ViewModel() {
         gameDifficulty.value = difficulty
         _isGameTerminated.value = false
         _score.intValue = 0
-        _lives.intValue = when(difficulty) {
+        _lives.intValue = when (difficulty) {
             Difficulty.EASY -> 10
             Difficulty.MEDIUM -> 6
             Difficulty.HARD -> 5
@@ -82,15 +115,15 @@ class QuizViewModel(val playerDao: PlayerDao): ViewModel() {
     fun generateQuestion(difficulty: Difficulty = Difficulty.EASY) {
         timer.cancel()
         timer.start()
-        val limits = when(difficulty) {
+        val limits = when (difficulty) {
             Difficulty.EASY -> 0 to 10
             Difficulty.MEDIUM -> 0 to 20
             Difficulty.HARD -> -20 to 20
             Difficulty.EXPERT -> -100 to 100
         }
 
-        val a = Random.nextInt(limits.first,limits.second)
-        val b = Random.nextInt(limits.first,limits.second)
+        val a = Random.nextInt(limits.first, limits.second)
+        val b = Random.nextInt(limits.first, limits.second)
         val symbol = Operation.entries.random()
         val result: Long = symbol.calc(a, b)
 
@@ -100,25 +133,25 @@ class QuizViewModel(val playerDao: PlayerDao): ViewModel() {
 
     fun confirmAnswer(answer: String): Boolean? {
         try {
-            if(answer.toLong() == _correctAnswer.longValue) {
+            if (answer.toLong() == _correctAnswer.longValue) {
                 _score.intValue += 1
                 return true
             } else {
                 // _score.intValue = max(0, _score.intValue - 1)
                 _lives.intValue = max(0, _lives.intValue - 1)
-                if(_lives.intValue <= 0) {
+                if (_lives.intValue <= 0) {
                     _isGameTerminated.value = true
                 }
                 return false
             }
-        } catch (_:Exception) {
+        } catch (_: Exception) {
             return null
         }
     }
 
     fun passQuestion() {
         _lives.intValue = max(0, _lives.intValue - 1)
-        if(_lives.intValue == 0) {
+        if (_lives.intValue == 0) {
             _isGameTerminated.value = true
             return
         }
@@ -137,7 +170,8 @@ class QuizViewModel(val playerDao: PlayerDao): ViewModel() {
                     score = _score.intValue,
                     lives = _lives.intValue,
                     gameMode = gameDifficulty.value
-            ))
+                )
+            )
         }
     }
 
@@ -148,6 +182,17 @@ class QuizViewModel(val playerDao: PlayerDao): ViewModel() {
     }
 }
 
+object LocaleHelper {
+    fun setLocale(context: Context, language: String): Context {
+        val locale = Locale(language)
+        Locale.setDefault(locale)
+
+        val config = Configuration(context.resources.configuration)
+        config.setLocale(locale)
+
+        return context.createConfigurationContext(config)
+    }
+}
 
 enum class Operation(internal val opSymbol: String) {
     ADD("+") {

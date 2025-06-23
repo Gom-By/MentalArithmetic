@@ -1,3 +1,82 @@
 <resources>
-    <string name="app_name">MentalArithmetic</string>
+    <string name="app_name" translatable="false">MentalArithmetic</string>
+    <string name="rules_title">Rules :</string>
+    <string name="rule_1">A question will appear.</string>
+    <string name="rule_2">You have 20s to answer in the text input and then click "Confirm" to send the answer.</string>
+    <string name="rule_3">You can\'t redo a question after it has been already validate</string>
+    <string name="rule_4">Numbers are rounded up with 2 decimals</string>
+
+    <string name="start_button">Start Now !</string>
+    <string name="start_icon_description">Start</string>
+
+    <string name="about_button">About</string>
+    <string name="about_icon_description">About</string>
+
+    <string name="scoreboard_title">Scoreboard</string>
+    <string name="column_name">Name</string>
+    <string name="column_score">Score</string>
+    <string name="column_lives_left">Lives left</string>
+    <string name="column_difficulty">Difficulty</string>
+
+    <string name="easy_mode_title">Easy Mode</string>
+    <string name="easy_mode_description">Max lives, numbers between 0 and 10</string>
+
+    <string name="medium_mode_title">Medium Mode</string>
+    <string name="medium_mode_description">More lives, numbers between 0 and 20</string>
+
+    <string name="hard_mode_title">Hard Mode</string>
+    <string name="hard_mode_description">Less lives, numbers between -20 and 20</string>
+
+    <string name="expert_mode_title">Expert Mode</string>
+    <string name="expert_mode_description">3 lives, numbers between -100 and 100</string>
+    <string name="creator_name">Your Name</string>
+    <string name="github_repo_link">https://github.com/your-repo</string>
+
+    <string name="creators_label">Creators :</string>
+    <string name="github_label">Github:</string>
+
+    <string name="required_features_title">Required Features</string>
+    <string name="required_feature_quiz">Quiz : where the game happens</string>
+    <string name="required_feature_about">About : this page</string>
+    <string name="required_feature_home">Home : from which you can access others</string>
+    <string name="required_feature_save_score">User can save score as a player</string>
+
+    <string name="additional_features_title">Additional Features</string>
+    <string name="additional_feature_timer">Timer for questions</string>
+    <string name="additional_feature_skip">Skip Button</string>
+    <string name="additional_feature_help">Help Button</string>
+    <string name="additional_feature_score">Player score</string>
+    <string name="additional_feature_lives">Player lives</string>
+    <string name="additional_feature_modes">Different game modes</string>
+
+    <string name="difficulty_label">Difficulty :</string>
+
+    <string name="score_icon_description">Score</string>
+    <string name="lives_icon_description">Lives</string>
+
+    <string name="question_title">Answer this question</string>
+
+    <string name="input_hint">Try writing some numbers only.</string>
+    <string name="answer_correct_suffix">is the correct answer. Bravo !</string>
+    <string name="answer_wrong_suffix">is a wrong answer :(</string>
+
+    <string name="confirm_button">Check answer</string>
+    <string name="confirm_icon_description">Confirm Result</string>
+
+    <string name="help_button">Show answer</string>
+    <string name="help_icon_description">Show answer</string>
+
+    <string name="next_button">Go Next !</string>
+    <string name="next_icon_description">Next Question</string>
+
+    <string name="pass_button">Pass (-1 live)</string>
+
+    <string name="game_end_message">Game ended. Save the run ?</string>
+    <string name="player_name_prompt">Enter name of the player</string>
+
+    <string name="save_button">Save</string>
+    <string name="save_icon_description">Save</string>
+
+    <string name="cancel_button">Cancel</string>
+    <string name="cancel_icon_description">Cancel</string>
 </resources>

@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">MentalArithmetic</string>
+    <string name="rules_title">Règles :</string>
+    <string name="rule_1">Une question apparaîtra.</string>
+    <string name="rule_2">Vous avez 20 secondes pour répondre dans le champ de texte, puis cliquer sur "Vérifier".</string>
+    <string name="rule_3">Vous ne pouvez pas refaire une question après validation.</string>
+    <string name="rule_4">Les nombres sont arrondis à 2 décimales.</string>
+
+    <string name="start_button">Commencer !</string>
+    <string name="start_icon_description">Démarrer</string>
+
+    <string name="about_button">À propos</string>
+    <string name="about_icon_description">À propos</string>
+
+    <string name="scoreboard_title">Classement</string>
+    <string name="column_name">Nom</string>
+    <string name="column_score">Score</string>
+    <string name="column_lives_left">Vies restantes</string>
+    <string name="column_difficulty">Difficulté</string>
+
+    <string name="easy_mode_title">Mode Facile</string>
+    <string name="easy_mode_description">Vies max, nombres entre 0 et 10</string>
+
+    <string name="medium_mode_title">Mode Moyen</string>
+    <string name="medium_mode_description">Plus de vies, nombres entre 0 et 20</string>
+
+    <string name="hard_mode_title">Mode Difficile</string>
+    <string name="hard_mode_description">Moins de vies, nombres entre -20 et 20</string>
+
+    <string name="expert_mode_title">Mode Expert</string>
+    <string name="expert_mode_description">3 vies, nombres entre -100 et 100</string>
+
+    <string name="creator_name">Votre Nom</string>
+    <string name="github_repo_link">https://github.com/your-repo</string>
+
+    <string name="creators_label">Créateurs :</string>
+    <string name="github_label">GitHub :</string>
+
+    <string name="required_features_title">Fonctionnalités Requises</string>
+    <string name="required_feature_quiz">Quiz : où le jeu se déroule</string>
+    <string name="required_feature_about">À propos : cette page</string>
+    <string name="required_feature_home">Accueil : point d\'accès aux autres pages</string>
+    <string name="required_feature_save_score">L\'utilisateur peut enregistrer son score</string>
+
+    <string name="additional_features_title">Fonctionnalités Supplémentaires</string>
+    <string name="additional_feature_timer">Minuteur pour les questions</string>
+    <string name="additional_feature_skip">Bouton Passer</string>
+    <string name="additional_feature_help">Bouton Aide</string>
+    <string name="additional_feature_score">Score du joueur</string>
+    <string name="additional_feature_lives">Vies du joueur</string>
+    <string name="additional_feature_modes">Différents modes de jeu</string>
+
+    <string name="difficulty_label">Difficulté :</string>
+
+    <string name="score_icon_description">Score</string>
+    <string name="lives_icon_description">Vies</string>
+
+    <string name="question_title">Répondez à cette question</string>
+
+    <string name="input_hint">Essayez de saisir uniquement des nombres.</string>
+    <string name="answer_correct_suffix">est la bonne réponse. Bravo !</string>
+    <string name="answer_wrong_suffix">n’est pas la bonne réponse :(</string>
+
+    <string name="confirm_button">Vérifier</string>
+    <string name="confirm_icon_description">Valider la réponse</string>
+
+    <string name="help_button">Afficher la réponse</string>
+    <string name="help_icon_description">Voir la réponse</string>
+
+    <string name="next_button">Suivant !</string>
+    <string name="next_icon_description">Question suivante</string>
+
+    <string name="pass_button">Passer (-1 vie)</string>
+
+    <string name="game_end_message">Partie terminée. Sauvegarder la session ?</string>
+    <string name="player_name_prompt">Entrez le nom du joueur</string>
+
+    <string name="save_button">Enregistrer</string>
+    <string name="save_icon_description">Sauvegarder</string>
+
+    <string name="cancel_button">Annuler</string>
+    <string name="cancel_icon_description">Annuler</string>
+
+</resources>

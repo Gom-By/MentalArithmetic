@@ -42,6 +42,9 @@ android {
 
 dependencies {
 
+    // dataStore
+    implementation(libs.androidx.datastore.preferences)
+
     // room
     implementation(libs.androidx.room.runtime)
     implementation(libs.transport.runtime)

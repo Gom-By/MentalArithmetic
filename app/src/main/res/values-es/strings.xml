@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">MentalArithmetic</string>
+
+    <string name="rules_title">Reglas:</string>
+    <string name="rule_1">Aparecerá una pregunta.</string>
+    <string name="rule_2">Tienes 20 segundos para responder en el campo de texto y luego hacer clic en "Verificar".</string>
+    <string name="rule_3">No puedes volver a hacer una pregunta ya validada.</string>
+    <string name="rule_4">Los números se redondean a 2 decimales.</string>
+
+    <string name="start_button">¡Empezar ahora!</string>
+    <string name="start_icon_description">Empezar</string>
+
+    <string name="about_button">Acerca de</string>
+    <string name="about_icon_description">Acerca de</string>
+
+    <string name="scoreboard_title">Tabla de puntuación</string>
+    <string name="column_name">Nombre</string>
+    <string name="column_score">Puntuación</string>
+    <string name="column_lives_left">Vidas restantes</string>
+    <string name="column_difficulty">Dificultad</string>
+
+    <string name="easy_mode_title">Modo Fácil</string>
+    <string name="easy_mode_description">Máximas vidas, números entre 0 y 10</string>
+
+    <string name="medium_mode_title">Modo Medio</string>
+    <string name="medium_mode_description">Más vidas, números entre 0 y 20</string>
+
+    <string name="hard_mode_title">Modo Difícil</string>
+    <string name="hard_mode_description">Menos vidas, números entre -20 y 20</string>
+
+    <string name="expert_mode_title">Modo Experto</string>
+    <string name="expert_mode_description">3 vidas, números entre -100 y 100</string>
+
+    <string name="creator_name">Tu Nombre</string>
+    <string name="github_repo_link">https://github.com/your-repo</string>
+
+    <string name="creators_label">Creadores:</string>
+    <string name="github_label">GitHub:</string>
+
+    <string name="required_features_title">Funciones Requeridas</string>
+    <string name="required_feature_quiz">Quiz: donde ocurre el juego</string>
+    <string name="required_feature_about">Acerca de: esta página</string>
+    <string name="required_feature_home">Inicio: desde donde accedes a otras</string>
+    <string name="required_feature_save_score">El usuario puede guardar su puntuación</string>
+
+    <string name="additional_features_title">Funciones Adicionales</string>
+    <string name="additional_feature_timer">Temporizador para preguntas</string>
+    <string name="additional_feature_skip">Botón de Saltar</string>
+    <string name="additional_feature_help">Botón de Ayuda</string>
+    <string name="additional_feature_score">Puntuación del jugador</string>
+    <string name="additional_feature_lives">Vidas del jugador</string>
+    <string name="additional_feature_modes">Diferentes modos de juego</string>
+
+    <string name="difficulty_label">Dificultad:</string>
+
+    <string name="score_icon_description">Puntuación</string>
+    <string name="lives_icon_description">Vidas</string>
+
+    <string name="question_title">Responde a esta pregunta</string>
+
+    <string name="input_hint">Intenta escribir solo números.</string>
+    <string name="answer_correct_suffix">es la respuesta correcta. ¡Bravo!</string>
+    <string name="answer_wrong_suffix">es una respuesta incorrecta :(</string>
+
+    <string name="confirm_button">Verificar</string>
+    <string name="confirm_icon_description">Confirmar respuesta</string>
+
+    <string name="help_button">Mostrar respuesta</string>
+    <string name="help_icon_description">Ver respuesta</string>
+
+    <string name="next_button">¡Siguiente!</string>
+    <string name="next_icon_description">Siguiente pregunta</string>
+
+    <string name="pass_button">Pasar (-1 vida)</string>
+
+    <string name="game_end_message">Juego terminado. ¿Guardar la sesión?</string>
+    <string name="player_name_prompt">Introduce el nombre del jugador</string>
+
+    <string name="save_button">Guardar</string>
+    <string name="save_icon_description">Guardar</string>
+
+    <string name="cancel_button">Cancelar</string>
+    <string name="cancel_icon_description">Cancelar</string>
+
+</resources>

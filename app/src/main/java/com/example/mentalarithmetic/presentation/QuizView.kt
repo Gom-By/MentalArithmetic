@@ -21,7 +21,7 @@ import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonColors
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedButton
@@ -35,12 +35,14 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.example.mentalarithmetic.R
 import com.example.mentalarithmetic.domain.QuizViewModel
 import com.example.mentalarithmetic.ui.theme.Typography
 
@@ -48,7 +50,7 @@ import com.example.mentalarithmetic.ui.theme.Typography
 fun QuizView(
     modifier: Modifier = Modifier,
     vm: QuizViewModel = viewModel(),
-    navController: NavController = rememberNavController()
+    navController: NavController = rememberNavController(),
 ) {
     var input by rememberSaveable { mutableStateOf("") }
     var showAnswer by rememberSaveable { mutableStateOf(false) }
@@ -62,42 +64,54 @@ fun QuizView(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Spacer(Modifier.height(64.dp))
-        Row(
-            Modifier.fillMaxWidth().padding(12.dp)
-        ) {
-            Text("Difficulty : ${vm.gameDifficulty.value.name}")
+        Row(Modifier
+            .fillMaxWidth()
+            .padding(12.dp)) {
+            Text("${stringResource(R.string.difficulty_label)} ${vm.gameDifficulty.value.name}")
         }
         Row(
-            modifier = Modifier.fillMaxWidth().padding(12.dp),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(12.dp),
             verticalAlignment = Alignment.Top,
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             Row {
-                Icon(imageVector = Icons.Default.Star, contentDescription = "Score")
+                Icon(
+                    imageVector = Icons.Default.Star,
+                    contentDescription = stringResource(R.string.score_icon_description)
+                )
                 Spacer(Modifier.width(8.dp))
-                Text(text = vm.score.value.toString())
+                Text(vm.score.value.toString())
             }
+            Row { Text(vm.timerText.value) }
             Row {
-                Text(text = vm.timerText.value)
-            }
-            Row {
-                Text(text = vm.lives.value.toString())
+                Text(vm.lives.value.toString())
                 Spacer(Modifier.width(8.dp))
-                Icon(imageVector = Icons.Default.Favorite, contentDescription = "Lives")
+                Icon(
+                    imageVector = Icons.Default.Favorite,
+                    contentDescription = stringResource(R.string.lives_icon_description)
+                )
             }
         }
+
         Card {
             Column(
-                modifier.padding(12.dp).fillMaxWidth(),
+                modifier
+                    .padding(12.dp)
+                    .fillMaxWidth(),
                 verticalArrangement = Arrangement.SpaceEvenly,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Column(Modifier.fillMaxWidth()) { // the question
-                    Text("Answer this question")
-                    Text(text = "${vm.question.value} ${ if(showAnswer) vm.correctAnswer.value else "?" }",
+                Column(Modifier.fillMaxWidth()) {
+                    Text(stringResource(R.string.question_title))
+                    Text(
+                        text = "${vm.question.value} ${if (showAnswer) vm.correctAnswer.value else "?"}",
                         style = Typography.displayLarge,
-                        color = if(showAnswer) Color.Green else Color.Unspecified)
+                        color = if (showAnswer) Color.Green else Color.Unspecified
+                    )
                 }
+
                 Spacer(Modifier.height(12.dp))
                 Row(Modifier.fillMaxWidth()) {
                     TextField(
@@ -105,29 +119,30 @@ fun QuizView(
                         value = input,
                         onValueChange = { input = it },
                         keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
-                        keyboardActions = KeyboardActions(
-                            onNext = {
-                                isAnswerValid = vm.confirmAnswer(input)
-                            }
-                        )
+                        keyboardActions = KeyboardActions {
+                            isAnswerValid = vm.confirmAnswer(input)
+                        }
                     )
                 }
 
                 Spacer(Modifier.height(24.dp))
-                Row(
-                    Modifier.fillMaxWidth()
-                ) {
+                Row(Modifier.fillMaxWidth()) {
                     when (isAnswerValid) {
-                        null -> {
-                            Text("Try writing some numbers only.", color = Color.Yellow)
-                        }
+                        null -> Text(stringResource(R.string.input_hint), color = Color.Yellow)
                         true -> {
                             val fixedAnswer by rememberSaveable { mutableStateOf(input) }
-                            Text("$fixedAnswer is the correct answer. Bravo !", color = Color.Green)
+                            Text(
+                                "$fixedAnswer ${stringResource(R.string.answer_correct_suffix)}",
+                                color = Color.Green
+                            )
                         }
+
                         false -> {
                             val fixedAnswer by rememberSaveable { mutableStateOf(input) }
-                            Text("$fixedAnswer is a wrong answer :(", color = Color.Red)
+                            Text(
+                                "$fixedAnswer ${stringResource(R.string.answer_wrong_suffix)}",
+                                color = Color.Red
+                            )
                         }
                     }
                 }
@@ -140,10 +155,10 @@ fun QuizView(
                         }) {
                             Icon(
                                 imageVector = Icons.Default.Check,
-                                contentDescription = "Confirm Result"
+                                contentDescription = stringResource(R.string.confirm_icon_description)
                             )
                             Spacer(Modifier.width(8.dp))
-                            Text("Check answer")
+                            Text(stringResource(R.string.confirm_button))
                         }
                         AnimatedVisibility(vm.score.value >= 3) {
                             Spacer(Modifier.width(12.dp))
@@ -153,10 +168,10 @@ fun QuizView(
                             }) {
                                 Icon(
                                     imageVector = Icons.Default.Info,
-                                    contentDescription = "Show answer"
+                                    contentDescription = stringResource(R.string.help_icon_description)
                                 )
                                 Spacer(Modifier.width(8.dp))
-                                Text("Show answer")
+                                Text(stringResource(R.string.help_button))
                             }
                         }
                     } else {
@@ -168,49 +183,46 @@ fun QuizView(
                         }) {
                             Icon(
                                 imageVector = Icons.AutoMirrored.Filled.ArrowForward,
-                                contentDescription = "Next Question"
+                                contentDescription = stringResource(R.string.next_icon_description)
                             )
                             Spacer(Modifier.width(8.dp))
-                            Text("Go Next !")
+                            Text(stringResource(R.string.next_button))
                         }
                     }
                 }
 
                 Spacer(Modifier.height(12.dp))
                 Row(Modifier.fillMaxWidth()) {
-                        OutlinedButton(
-                            colors = ButtonColors(
-                                containerColor = Color.Red,
-                                contentColor = Color.White,
-                                disabledContainerColor = Color.Unspecified,
-                                disabledContentColor = Color.Unspecified
-                            ), onClick = {
-                            vm.passQuestion()
-                        }) {
-                            Icon(
-                                imageVector = Icons.Default.Check,
-                                contentDescription = "Confirm Result"
-                            )
-                            Spacer(Modifier.width(8.dp))
-                            Text("Pass (-1 live)")
-                        }
+                    OutlinedButton(
+                        colors = ButtonDefaults.outlinedButtonColors(
+                            containerColor = Color.Red,
+                            contentColor = Color.White
+                        ),
+                        onClick = { vm.passQuestion() }
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.Check,
+                            contentDescription = stringResource(R.string.confirm_icon_description)
+                        )
+                        Spacer(Modifier.width(8.dp))
+                        Text(stringResource(R.string.pass_button))
+                    }
                 }
             }
         }
 
-        if(vm.isGameTerminated.value) {
+        if (vm.isGameTerminated.value) {
             Dialog(onDismissRequest = {
                 navController.navigate("Home")
             }) {
                 var playerName by rememberSaveable { mutableStateOf("") }
                 Card {
-                    Column(Modifier.padding(12.dp).fillMaxWidth()) {
-                        Text("Game ended. Save the run ?")
-                        Text("Enter name of the player")
-                        TextField(
-                            value = playerName,
-                            onValueChange = { playerName = it }
-                        )
+                    Column(Modifier
+                        .padding(12.dp)
+                        .fillMaxWidth()) {
+                        Text(stringResource(R.string.game_end_message))
+                        Text(stringResource(R.string.player_name_prompt))
+                        TextField(value = playerName, onValueChange = { playerName = it })
                         Row(
                             modifier = Modifier.fillMaxWidth(),
                             horizontalArrangement = Arrangement.Center,
@@ -222,10 +234,10 @@ fun QuizView(
                             }) {
                                 Icon(
                                     imageVector = Icons.Default.AccountCircle,
-                                    contentDescription = "Save"
+                                    contentDescription = stringResource(R.string.save_icon_description)
                                 )
                                 Spacer(Modifier.width(8.dp))
-                                Text("Save")
+                                Text(stringResource(R.string.save_button))
                             }
                             Spacer(Modifier.width(16.dp))
                             OutlinedButton(onClick = {
@@ -233,10 +245,10 @@ fun QuizView(
                             }) {
                                 Icon(
                                     imageVector = Icons.Default.Close,
-                                    contentDescription = "Cancel"
+                                    contentDescription = stringResource(R.string.cancel_icon_description)
                                 )
                                 Spacer(Modifier.width(8.dp))
-                                Text("Cancel")
+                                Text(stringResource(R.string.cancel_button))
                             }
                         }
                     }
